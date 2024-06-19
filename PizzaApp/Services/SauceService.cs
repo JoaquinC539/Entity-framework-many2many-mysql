@@ -1,10 +1,10 @@
-using Interfaces.IService;
+using Interfaces.IApiService;
 using Models.Sauce;
 using PizzaApp.Context;
 
 namespace Services.SauceService;
 
-public class SauceService : IService<Sauce,SauceDto>
+public class SauceService : IApiService<Sauce,SauceDto>
 {
     private readonly PizzaAppContext _context;
 

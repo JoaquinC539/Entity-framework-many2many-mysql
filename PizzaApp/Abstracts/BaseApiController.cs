@@ -1,9 +1,9 @@
-using Interfaces.IService;
+using Interfaces.IApiService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Abstracts.BaseApiController;
 
-public abstract class BaseApiController<TService,TModel,TDto> : ControllerBase where TService:IService<TModel,TDto>
+public abstract class BaseApiController<TService,TModel,TDto> : ControllerBase where TService:IApiService<TModel,TDto>
 {
     protected TService Service;
 

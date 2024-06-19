@@ -1,5 +1,5 @@
-namespace Interfaces.IService;
-public interface IService<T,Y>
+namespace Interfaces.IApiService;
+public interface IApiService<T,Y>
 {
     public ICollection<T> Index(IDictionary<string,object> args);
 
