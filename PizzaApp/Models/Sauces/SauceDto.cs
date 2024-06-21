@@ -1,4 +1,4 @@
-namespace Models.Sauce;
+namespace Models.Sauces;
 
 public class SauceDto
 {

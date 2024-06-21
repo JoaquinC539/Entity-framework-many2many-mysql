@@ -1,4 +1,4 @@
-namespace Models.Topping;
+namespace Models.Toppings;
 
 public partial class ToppingDto
 {

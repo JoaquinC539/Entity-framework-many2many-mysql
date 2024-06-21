@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Models.Sauce;
-using Models.Topping;
+using Models.Pizzas;
+using Models.Sauces;
+using Models.Toppings;
 
 namespace PizzaApp.Context;
 
@@ -13,6 +14,12 @@ public class PizzaAppContext:DbContext
     
     public DbSet<Sauce> Sauces =>Set<Sauce>();
 
+
+
+    public DbSet<Pizza> Pizzas=>Set<Pizza>();
+
     public DbSet<Topping> Toppings=>Set<Topping>();
+
+    public DbSet<PizzaTopping> PizzaToppings=>Set<PizzaTopping>();
 
 }

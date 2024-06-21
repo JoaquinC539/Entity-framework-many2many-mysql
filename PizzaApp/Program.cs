@@ -2,6 +2,7 @@
 
 using PizzaApp.Startup;
 using Microsoft.AspNetCore;
+using PizzaApp.Context;
 
 // app.Run();
 
@@ -15,9 +16,12 @@ public class Program
         
     }
 
-    public static IWebHostBuilder WebHostBuilder(string [] args)=> 
-    WebHost.CreateDefaultBuilder(args)
-    .UseStartup<Startup>();
+    public static IHostBuilder WebHostBuilder(string [] args)=> 
+    Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webBuilder =>
+    {
+        webBuilder.UseStartup<Startup>();
+    });
 }
 
 

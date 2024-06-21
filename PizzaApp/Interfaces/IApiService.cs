@@ -1,11 +1,11 @@
 namespace Interfaces.IApiService;
 public interface IApiService<T,Y>
 {
-    public ICollection<T> Index(IDictionary<string,object> args);
+    public IEnumerable<T> Index(IDictionary<string,object> args);
 
     public T? GetById(int id);
 
-    public T Post (Y dto);
+    public T? Post (Y dto);
 
     public T? Edit (Y dto,int id);
 

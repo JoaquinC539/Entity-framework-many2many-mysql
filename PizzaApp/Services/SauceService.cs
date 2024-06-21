@@ -1,5 +1,5 @@
 using Interfaces.IApiService;
-using Models.Sauce;
+using Models.Sauces;
 using PizzaApp.Context;
 
 namespace Services.SauceService;
@@ -13,7 +13,7 @@ public class SauceService : IApiService<Sauce,SauceDto>
         _context = context;
     }
 
-    public ICollection<Sauce> Index(IDictionary<string,object> args)
+    public IEnumerable<Sauce> Index(IDictionary<string,object> args)
     {
         List<Sauce> sauces=_context.Sauces.ToList();
         return sauces;
@@ -25,7 +25,8 @@ public class SauceService : IApiService<Sauce,SauceDto>
     }
     public Sauce Post(SauceDto sauceDto)
     {
-        Sauce sauce= new Sauce {Name=sauceDto.Name};
+        // Sauce sauce= new Sauce {Name=sauceDto.Name};
+        Sauce sauce = new Sauce {Name=sauceDto.Name};
 
         _context.Sauces.Add(sauce);
         _context.SaveChanges();

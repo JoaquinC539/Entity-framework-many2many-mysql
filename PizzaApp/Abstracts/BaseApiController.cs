@@ -3,23 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Abstracts.BaseApiController;
 
+[ApiController]
+[Route("api/[controller]")]
 public abstract class BaseApiController<TService,TModel,TDto> : ControllerBase where TService:IApiService<TModel,TDto>
 {
     protected TService Service;
-
-
+    
     public BaseApiController(TService service)
     {
         Service = service;
     }
-    
-
-    
-    // public IEnumerable<TModel> IndexQuery(Dictionary<string,object> args)
-    // {        
-    //     var entities=Service.Index(args).ToList();
-    //     return entities;
-    // }
+    [HttpGet]
+    public virtual ActionResult<IEnumerable<TModel>> Index()
+    {
+        Dictionary<string,object> parameters=new Dictionary<string,object>();
+        List<TModel> entities=Service.Index(parameters).ToList();
+        return Ok(entities);
+    }
 
     [HttpGet("{id}")]
     public virtual ActionResult<TModel> GetById([FromRoute] int id)

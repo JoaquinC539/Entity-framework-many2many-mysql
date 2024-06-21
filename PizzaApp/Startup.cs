@@ -2,7 +2,10 @@
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using PizzaApp.Context;
+using Services.PizzaService;
 using Services.SauceService;
+using Services.ToppingService;
+
 
 namespace PizzaApp.Startup;
 public class Startup
@@ -39,6 +42,10 @@ public class Startup
         services.AddMySql<PizzaAppContext>(connectionString,serverVersion);
 
         services.AddScoped<SauceService>();
+
+        services.AddScoped<ToppingService>();  
+
+        services.AddScoped<PizzaService>();
         
     }
     public void Configure (IApplicationBuilder app, IWebHostEnvironment env)
