@@ -36,28 +36,11 @@ public class PizzaService : IApiService<Pizza, PizzaDto>
         {
             return null;
         }
-
-        var toppingToDelete = _context.PizzaToppings
-        .Where(pt => pt.PizzaId == pizza.Id)
-        .ToList();
-
-        _context.PizzaToppings.RemoveRange(toppingToDelete);
-        List<Topping> toppingsToAdd=_context.Toppings
-        .Where(tp=>dto.Toppings.Contains(tp.Id))
-        .ToList();
-
-        foreach(int topping_id in dto.Toppings)
-        {
-            PizzaTopping pt=new PizzaTopping {PizzaId=pizza.Id,ToppingId=topping_id};
-            _context.PizzaToppings.Add(pt);
-        }       
-        
     
         
         pizza.Name = dto.Name;
         pizza.Sauce = sauce;
         _context.SaveChanges();
-        pizza.Toppings=toppingsToAdd;
         return pizza;
     }
 
@@ -65,23 +48,12 @@ public class PizzaService : IApiService<Pizza, PizzaDto>
     {
         var pizza=_context.Pizzas
         .Include(p => p.Sauce)
+        .Include(p=>p.Toppings)
         .SingleOrDefault(p => p.Id == id);
         if(pizza==null)
         {
             return null;
         }
-
-        var pts=_context.PizzaToppings
-        .Where(pt=>pt.PizzaId==id)
-        .ToList();
-
-        var toppingIds=pts.Select(pt=>pt.ToppingId).ToList();
-
-        var toppings=_context.Toppings
-        .Where(tp=>toppingIds.Contains(tp.Id))
-        .ToList();
-        
-        pizza.Toppings=toppings;
 
 
         return pizza;
@@ -91,22 +63,10 @@ public class PizzaService : IApiService<Pizza, PizzaDto>
     {
         List<Pizza> pizzas = _context.Pizzas
         .Include(p => p.Sauce)
+        .Include(p=>p.Toppings)
         .ToList();
 
-        foreach(Pizza pizza in pizzas)
-        {
-            var pts=_context.PizzaToppings
-            .Where(pt=>pt.PizzaId==pizza.Id)
-            .ToList();
-
-            var toppingIds=pts.Select(pt=>pt.ToppingId).ToList();
-
-            var toppings=_context.Toppings
-            .Where(tp=>toppingIds.Contains(tp.Id))
-            .ToList();
-
-            pizza.Toppings=toppings;
-        }
+        
 
         return pizzas;
     }
@@ -119,23 +79,20 @@ public class PizzaService : IApiService<Pizza, PizzaDto>
             return null;
         }
         Pizza pizza = new Pizza { Name = dto.Name, Sauce = sauce };
+
+
+        var toppings=_context.Toppings.Where(tp=>dto.Toppings.Contains(tp.Id)).ToList();
+        
+        pizza.Toppings=toppings;
+
         _context.Pizzas.Add(pizza);
+
+
         
         _context.SaveChanges();
-        pizza.Toppings=new List<Topping>();
-        foreach(var tpId in dto.Toppings)
-        {
-            var tp=_context.Toppings.SingleOrDefault(tp=>tp.Id==tpId);
-            
-            if(tp!=null)
-            {
-                pizza.Toppings.Add(tp);
-                PizzaTopping pt=new PizzaTopping { PizzaId=pizza.Id, ToppingId=tpId};
-                _context.PizzaToppings.Add(pt);
-            }
-        }
         
-        _context.SaveChanges();
+        
+       
         return pizza;
     }
 }

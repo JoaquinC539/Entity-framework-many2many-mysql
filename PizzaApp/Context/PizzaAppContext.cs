@@ -20,6 +20,11 @@ public class PizzaAppContext:DbContext
 
     public DbSet<Topping> Toppings=>Set<Topping>();
 
-    public DbSet<PizzaTopping> PizzaToppings=>Set<PizzaTopping>();
+    // public DbSet<PizzaTopping> PizzaToppings=>Set<PizzaTopping>();
+
+    // protected override void OnModelCreating(ModelBuilder modelBuilder)
+    // {
+    //     base.OnModelCreating(modelBuilder);
+    // }
 
 }

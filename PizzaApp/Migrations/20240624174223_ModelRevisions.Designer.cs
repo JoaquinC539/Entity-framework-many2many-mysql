@@ -12,8 +12,8 @@ using PizzaApp.Context;
 namespace PizzaApp.Migrations
 {
     [DbContext(typeof(PizzaAppContext))]
-    [Migration("20240621174052_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240624174223_ModelRevisions")]
+    partial class ModelRevisions
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,9 @@ namespace PizzaApp.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("name");
 
                     b.Property<int?>("SauceId")
@@ -85,6 +87,21 @@ namespace PizzaApp.Migrations
                     b.ToTable("toppings");
                 });
 
+            modelBuilder.Entity("PizzaTopping", b =>
+                {
+                    b.Property<int>("PizzasId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ToppingsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PizzasId", "ToppingsId");
+
+                    b.HasIndex("ToppingsId");
+
+                    b.ToTable("PizzaTopping");
+                });
+
             modelBuilder.Entity("Models.Pizzas.Pizza", b =>
                 {
                     b.HasOne("Models.Sauces.Sauce", "Sauce")
@@ -92,6 +109,21 @@ namespace PizzaApp.Migrations
                         .HasForeignKey("SauceId");
 
                     b.Navigation("Sauce");
+                });
+
+            modelBuilder.Entity("PizzaTopping", b =>
+                {
+                    b.HasOne("Models.Pizzas.Pizza", null)
+                        .WithMany()
+                        .HasForeignKey("PizzasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Models.Toppings.Topping", null)
+                        .WithMany()
+                        .HasForeignKey("ToppingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

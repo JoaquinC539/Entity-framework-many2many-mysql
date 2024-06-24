@@ -3,11 +3,11 @@ using Models.Toppings;
 
 namespace Models.Pizzas;
 
-[Table("pizza_topping")]
+[Table("PizzaTopping")]
 public class PizzaTopping
 {
-    [Column("id")]
-    public int Id { get; set; }
+    // [Column("id")]
+    // public int Id { get; set; }
 
     [Column("pizza_id")]
     public int PizzaId { get; set; }

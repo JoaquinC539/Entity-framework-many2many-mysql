@@ -32,7 +32,9 @@ namespace PizzaApp.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("name");
 
                     b.Property<int?>("SauceId")
@@ -44,32 +46,6 @@ namespace PizzaApp.Migrations
                     b.HasIndex("SauceId");
 
                     b.ToTable("pizzas");
-                });
-
-            modelBuilder.Entity("Models.Pizzas.PizzaTopping", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PizzaId")
-                        .HasColumnType("int")
-                        .HasColumnName("pizza_id");
-
-                    b.Property<int>("ToppingId")
-                        .HasColumnType("int")
-                        .HasColumnName("topping_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PizzaId");
-
-                    b.HasIndex("ToppingId");
-
-                    b.ToTable("pizza_topping");
                 });
 
             modelBuilder.Entity("Models.Sauces.Sauce", b =>
@@ -108,6 +84,21 @@ namespace PizzaApp.Migrations
                     b.ToTable("toppings");
                 });
 
+            modelBuilder.Entity("PizzaTopping", b =>
+                {
+                    b.Property<int>("PizzasId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ToppingsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PizzasId", "ToppingsId");
+
+                    b.HasIndex("ToppingsId");
+
+                    b.ToTable("PizzaTopping");
+                });
+
             modelBuilder.Entity("Models.Pizzas.Pizza", b =>
                 {
                     b.HasOne("Models.Sauces.Sauce", "Sauce")
@@ -117,33 +108,19 @@ namespace PizzaApp.Migrations
                     b.Navigation("Sauce");
                 });
 
-            modelBuilder.Entity("Models.Pizzas.PizzaTopping", b =>
+            modelBuilder.Entity("PizzaTopping", b =>
                 {
-                    b.HasOne("Models.Pizzas.Pizza", "Pizza")
-                        .WithMany("PizzaToppings")
-                        .HasForeignKey("PizzaId")
+                    b.HasOne("Models.Pizzas.Pizza", null)
+                        .WithMany()
+                        .HasForeignKey("PizzasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.Toppings.Topping", "Topping")
-                        .WithMany("PizzaToppings")
-                        .HasForeignKey("ToppingId")
+                    b.HasOne("Models.Toppings.Topping", null)
+                        .WithMany()
+                        .HasForeignKey("ToppingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Pizza");
-
-                    b.Navigation("Topping");
-                });
-
-            modelBuilder.Entity("Models.Pizzas.Pizza", b =>
-                {
-                    b.Navigation("PizzaToppings");
-                });
-
-            modelBuilder.Entity("Models.Toppings.Topping", b =>
-                {
-                    b.Navigation("PizzaToppings");
                 });
 #pragma warning restore 612, 618
         }

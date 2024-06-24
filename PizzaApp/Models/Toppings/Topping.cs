@@ -16,7 +16,10 @@ public class Topping
     public string? Name { get; set; }
 
     [JsonIgnore]
-    public ICollection<Pizza>? Pizzas { get; set; }
+    public ICollection<Pizza>? Pizzas{ get; set; }
+
+    // [JsonIgnore]
+    // public ICollection<Topping>? Pizzas { get; set; }
 
     
 

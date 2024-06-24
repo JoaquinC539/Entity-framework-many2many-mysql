@@ -16,6 +16,8 @@ public class Pizza
     public int Id { get; set; }
 
     [Column("name")]
+    [Required]
+    [MaxLength(100)]
     public string? Name { get; set; }
 
     [Column("sauce")]
@@ -26,6 +28,8 @@ public class Pizza
     public Sauce? Sauce{ get; set; }
 
     public ICollection<Topping>? Toppings { get; set; }
+
+    // public ICollection<Topping>? Toppings { get; set; }
 
     
 

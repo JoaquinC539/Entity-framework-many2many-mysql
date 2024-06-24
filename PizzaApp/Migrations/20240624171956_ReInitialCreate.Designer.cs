@@ -12,8 +12,8 @@ using PizzaApp.Context;
 namespace PizzaApp.Migrations
 {
     [DbContext(typeof(PizzaAppContext))]
-    [Migration("20240621183227_PizzaTopping")]
-    partial class PizzaTopping
+    [Migration("20240624171956_ReInitialCreate")]
+    partial class ReInitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,32 +47,6 @@ namespace PizzaApp.Migrations
                     b.HasIndex("SauceId");
 
                     b.ToTable("pizzas");
-                });
-
-            modelBuilder.Entity("Models.Pizzas.PizzaTopping", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PizzaId")
-                        .HasColumnType("int")
-                        .HasColumnName("pizza_id");
-
-                    b.Property<int>("ToppingId")
-                        .HasColumnType("int")
-                        .HasColumnName("topping_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PizzaId");
-
-                    b.HasIndex("ToppingId");
-
-                    b.ToTable("pizza_topping");
                 });
 
             modelBuilder.Entity("Models.Sauces.Sauce", b =>
@@ -118,35 +92,6 @@ namespace PizzaApp.Migrations
                         .HasForeignKey("SauceId");
 
                     b.Navigation("Sauce");
-                });
-
-            modelBuilder.Entity("Models.Pizzas.PizzaTopping", b =>
-                {
-                    b.HasOne("Models.Pizzas.Pizza", "Pizza")
-                        .WithMany("PizzaToppings")
-                        .HasForeignKey("PizzaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Models.Toppings.Topping", "Topping")
-                        .WithMany("PizzaToppings")
-                        .HasForeignKey("ToppingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pizza");
-
-                    b.Navigation("Topping");
-                });
-
-            modelBuilder.Entity("Models.Pizzas.Pizza", b =>
-                {
-                    b.Navigation("PizzaToppings");
-                });
-
-            modelBuilder.Entity("Models.Toppings.Topping", b =>
-                {
-                    b.Navigation("PizzaToppings");
                 });
 #pragma warning restore 612, 618
         }
