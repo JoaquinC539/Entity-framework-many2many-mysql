@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  pizza-app:
+    image: pizza-app
+    container_name: pizza-app
+    ports:
+      - "5000:8080"
+    networks:
+      - my-network
+
+    env_file:
+      - ./.env.prod
+
+networks:
+  my-network:
+    external: true
